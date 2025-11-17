@@ -1,1 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProdukSky</title>
+    <style>
+        :root {
+            --primary-blue: #1a1a5e;
+            --secondary-blue: #2d2d8a;
+            --accent-blue: #4a4aff;
+            --primary-purple: #5d1a5e;
+            --secondary-purple: #8a2d8a;
+            --accent-purple: #c74aff;
+            --light-bg: #f0f0ff;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            color: var(--text-light);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--accent-blue);
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--accent-blue);
+            }
+            to {
+                text-shadow: 0 0 20px var(--accent-purple), 0 0 30px var(--accent-blue);
+            }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+        }
+
+        .product-title span {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-name {
+            flex: 1;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: var(--accent-purple);
+        }
+
+        .contact-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* 3D Effect */
+        .dimension-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dimension-effect::before,
+        .dimension-effect::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-blue), transparent);
+            opacity: 0.1;
+            filter: blur(20px);
+        }
+
+        .dimension-effect::before {
+            top: 10%;
+            left: 10%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .dimension-effect::after {
+            bottom: 10%;
+            right: 10%;
+            background: radial-gradient(circle, var(--accent-purple), transparent);
+            animation: float 18s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(20px, -20px) scale(1.1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dimension-effect"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Joki Bosku Gaming</h1>
+            <p class="tagline">skyy nelayan fomo
+wlc to store skyy si fomo , skyy menyediakan</p>
+        </header>
+        
+        <section class="products-grid">
+            <div class="product-card">
+                <h2 class="product-title"><span>💫</span> Joki AFK</h2>
+                <div class="product-item">
+                    <div class="product-name">Joki AFK 1 Jam</div>
+                    <div class="product-price">750p</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">Joki AFK 1 Hari</div>
+                    <div class="product-price">8k</div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <h2 class="product-title"><span>🎣</span> Joki Rod Fish IT</h2>
+                <div class="product-item">
+                    <div class="product-name">✨ Astral Rod</div>
+                    <div class="product-price">Rp 10.000</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">🔥 Ares Rod</div>
+                    <div class="product-price">Rp 25.000</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">🌊 Angler Rod</div>
+                    <div class="product-price">Rp 45.000</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">👻 Ghostfin Rod</div>
+                    <div class="product-price">Rp 65.000</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">⚡ Element Rod</div>
+                    <div class="product-price">Rp 100.000</div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <h2 class="product-title"><span>🛟</span> Joki Bobbers Fish IT</h2>
+                <div class="product-item">
+                    <div class="product-name">CORRUPT</div>
+                    <div class="product-price">10k</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">AETHER</div>
+                    <div class="product-price">15k</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">SINGGU</div>
+                    <div class="product-price">40k</div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <h2 class="product-title"><span>🪙</span> Joki Koin</h2>
+                <div class="product-item">
+                    <div class="product-name">1M</div>
+                    <div class="product-price">10K</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">DST</div>
+                    <div class="product-price">Hubungi Admin</div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <h2 class="product-title"><span>💎</span> Sell Batu Enchanted</h2>
+                <div class="product-item">
+                    <div class="product-name">1k (12 batu)</div>
+                    <div class="product-price">Hubungi Admin</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">2k (25 batu)</div>
+                    <div class="product-price">Hubungi Admin</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">DST</div>
+                    <div class="product-price">Hubungi Admin</div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <h2 class="product-title"><span>💰</span> Koin 1M</h2>
+                <div class="product-item">
+                    <div class="product-name">1M</div>
+                    <div class="product-price">13k</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-name">Info Tambahan</div>
+                    <div class="product-price">sc tumbal r5</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="contact-section">
+            <h2 class="contact-title">Hubungi Kami</h2>
+            <p>Untuk pemesanan dan informasi lebih lanjut, silakan hubungi kami melalui:</p>
+            
+            <div class="contact-buttons">
+                <a href="https://wa.me/62882008622876" class="contact-btn" target="_blank">WhatsApp Admin</a>
+                <a href="https://chat.whatsapp.com/JmvweSsFVGy92rdzluZUo3?mode=hqrt2" class="contact-btn" target="_blank">Grup WhatsApp</a>
+                <a href="https://whatsapp.com/channel/0029VbBTpvXHgZWZrrwvMk3a" class="contact-btn" target="_blank">Saluran WhatsApp</a>
+            </div>
+        </section>
+        
+        <footer>
+            <p></p>
+        </footer>
+    </div>
+
+    <script>
+        // Efek interaktif untuk kartu produk
+        document.addEventListener('DOMContentLoaded', function() {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                });
+            });
+            
+            // Efek parallax sederhana
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.dimension-effect::before, .dimension-effect::after');
+                
+                parallaxElements.forEach(el => {
+                    const speed = 0.5;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
